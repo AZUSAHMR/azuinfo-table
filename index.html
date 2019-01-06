@@ -1,0 +1,513 @@
+<!doctype HTML>
+<html>
+	<head>
+		<title>아즈인포★</title>
+		<meta charset="UTF-8">
+		<link href="https://fonts.googleapis.com/css?family=Roboto+Mono:700" rel="stylesheet" type="text/css">
+		<style type="text/css">
+			@import url(http://fonts.googleapis.com/earlyaccess/nanumgothiccoding.css);
+
+			body{
+				margin: 0px 0px 0px 0px;
+			}
+
+			.box{
+				position: absolute;
+				top: 0px;
+				height: 100vh;
+			}
+
+			.widget{
+				width: calc(100% - 20px);
+				margin: 10px 10px 10px 10px;
+			}
+
+			.container{
+				display: inline-block;
+				position: relative;
+				width: 72px;
+				height: 72px;
+				cursor: move;
+				background-size: 100% 100%;
+			}
+
+			.nop{
+				border: 2px dashed;
+			}
+
+			.nov{
+				border: 2px solid #8B008B;
+			}
+
+			.adv{
+				border: 2px solid #FFD700;
+			}
+
+			.exh{
+				border: 2px solid #DC143C;
+			}
+
+			.inf{
+				border: 2px solid #00CED1;
+			}
+			
+			.mxm{
+				border: 2px solid #F6F3FC;
+			}
+
+			.grv{
+				border: 2px solid #D2691E;
+			}
+			
+			.hvn{
+				border: 2px solid #17A4FF;
+			}
+
+			.align{
+				margin: 15px 0px 15px calc((100% - ((72px + 2px * 2) * 3)) / 4);
+			}
+
+			.margin-row{
+				margin-top: 14px;
+				margin-bottom: 14px;
+				font-size: 0px;
+			}
+
+			.margin-col{
+				margin-left: 2.5px;
+				margin-right: 2.5px;
+			}
+
+			.text-center{
+				text-align: center;
+			}
+
+			.roboto{
+				position: absolute;
+				top: 0px;
+				left: 0px;
+				width: 100%;
+				text-align: center;
+				line-height: 72px;
+				font-family: "Roboto Mono";
+			}
+
+			.char1{
+				font-size: 60px;
+			}
+
+			.char2{
+				font-size: 50px;
+			}
+
+			.char3{
+				font-size: 40px;
+			}
+
+			.char4{
+				font-size: 30px;
+			}
+
+			#layer{
+				left: 0vw;
+				width: 70vw;
+				overflow: auto;
+			}
+
+			#widget{
+				border: none;
+				box-shadow: 0 0 0.5em rgba(0,0,0,0.5);
+				background: rgba(0,0,0,0.1);
+
+				left: 70vw;
+				width: calc(30vw - 2px);
+				border-left: 2px solid;
+			}
+
+			#width, #height{
+				width: 5vw;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="box text-center" id="layer"></div>
+		<div class="box" id="widget">
+			<div class="widget" style="height: 9em;">
+				<table>
+					<tr>
+						<td class="text-center" style="width: 4em;">사이즈</td>
+						<td>
+							<input type="number" min="1" max="99" placeholder="가로" value="5" id="width"> x <input type="number" min="1" max="99" placeholder="세로" value="5" id="height">
+							<input type="button" value="변경" onclick="setLayer(document.getElementById('width').value,document.getElementById('height').value);">
+						</td>
+					</tr>
+					<tr>
+						<td class="text-center">코드</td>
+						<td>
+							<input type="text" style="width: 12vw;" id="code">
+							<input type="button" value="불러오기" id="save" onclick="codeLoad(document.getElementById('code').value);">
+							<input type="button" value="저장" id="load" onclick="codeSave();">
+						</td>
+					</tr>
+					<tr>
+						<td class="text-center">아이디</td>
+						<td>
+							<input type="text" style="width: 8vw;" id="nickname">
+							비율
+							<input type="number" min="1" max="100" style="width: 5vw;" value="100" id="perc">%
+							<input type="button" value="생성" onclick="window.open('/render/'+document.getElementById('code').value+'/'+document.getElementById('nickname').value+'.png?perc='+document.getElementById('perc').value);">
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div class="widget" style="top: 20vh;">
+				<fieldset>
+					<legend>
+						<select id="category" onchange="setList(parseInt(this.value));">
+							<option value="0" selected>요소</option>
+							<option value="1">레벨 1</option>
+							<option value="2">레벨 2</option>
+							<option value="3">레벨 3</option>
+							<option value="4">레벨 4</option>
+							<option value="5">레벨 5</option>
+							<option value="6">레벨 6</option>
+							<option value="7">레벨 7</option>
+							<option value="8">레벨 8</option>
+							<option value="9">레벨 9</option>
+							<option value="10">레벨 10</option>
+							<option value="11">레벨 11</option>
+							<option value="12">레벨 12</option>
+							<option value="13">레벨 13</option>
+							<option value="14">레벨 14</option>
+							<option value="15">레벨 15</option>
+							<option value="16">레벨 16</option>
+							<option value="16">레벨 16</option>
+							<option value="17">레벨 17</option>
+							<option value="18">레벨 18</option>
+							<option value="19">레벨 19</option>
+							<option value="20">레벨 20</option>
+						</select>
+						<input type="text" placeholder="검색" id="keyword" onchange="search();" onkeyup="search();">
+					</legend>
+					<div class="text-center" style="display: none; padding-right: calc((100% - (72px * 3)) / 4); overflow: auto; height: 70vh;" id="list"></div>
+					<div style="display: none; overflow: auto; height: 70vh;" id="etc">
+						<div class="container align nop" data-diff="nop" ondragstart="event.dataTransfer.setData('diff','nop');" draggable="true"></div>
+						<div class="container align nop" data-diff="nop" ondragstart="event.dataTransfer.setData('diff','nop'); event.dataTransfer.setData('text','∞');" draggable="true"><div class="roboto char1">∞</div></div>
+						<div class="container align nop" data-diff="nop" ondragstart="event.dataTransfer.setData('diff','nop'); event.dataTransfer.setData('text','?');" draggable="true"><div class="roboto char1">?</div></div>
+						<hr>
+						<div class="container align">
+							<table style="width: 100%; height: 100%;">
+								<td>
+									<input type="number" id="customInput" value="0" min="0" max="9999" style="width: 100%;" onchange="customNumber();" onkeyup="customNumber();">
+								</td>
+							</table>
+						</div>
+						<div class="container align">
+							<table style="width: 100%; height: 100%;">
+								<tr>
+									<td>
+										<input type="radio" name="sign" value="" onclick="customNumber();" checked> 없음
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<input type="radio" name="sign" value="+" onclick="customNumber();"> +
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<input type="radio" name="sign" value="-" onclick="customNumber();"> -
+									</td>
+								</tr>
+							</table>
+						</div>
+						<div class="container align nop" data-diff="nop" ondragstart="event.dataTransfer.setData('diff','nop'); event.dataTransfer.setData('text',this.firstChild.innerHTML);" draggable="true"><div id="custom" class="roboto char2"></div></div>
+					</div>
+				</fieldset>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var metadata = {};
+			var data = {};
+			var size = {};
+			var diff_db = ["nov","adv","exh","mxm","inf"];
+
+			function customNumber(){
+				if(customInput.value<0)
+					customInput.value*=-1;
+
+				var output = "";
+				var target = document.getElementsByName("sign");
+
+				for(var i=0;i<target.length;i++){
+					if(target[i].checked){
+						output += target[i].value;
+						break;
+					}
+				}
+
+				output += customInput.value;
+				output = output.substring(0,4);
+
+				if(output.length==0)
+					output = "0";
+
+				custom.className = "roboto char"+output.length;
+				custom.innerHTML = output;
+			}
+
+			function setData(target,value){
+				data[target] = value;
+
+				var elem = document.getElementById(target);
+				elem.className = "container margin-col "+value.diff;
+
+				if(value.song)
+					elem.style.backgroundImage = "url(http://cdn.azu.kr"+metadata[value.song]["albumart_"+(value.diff=="grv"?"inf":value.diff)]+")";
+				else
+					elem.style.backgroundImage = null;
+
+				while(elem.firstChild){
+					elem.removeChild(elem.firstChild);
+				}
+
+				if(value.text){
+					var child = document.createElement("div");
+					child.className = "roboto char"+value.text.length;
+					child.innerHTML = value.text;
+
+					elem.appendChild(child);
+				}
+			}
+
+			function setLayer(x,y){
+				size = {x: x, y: y};
+
+				while(layer.firstChild){
+					layer.removeChild(layer.firstChild);
+				}
+
+				var old = data;
+				data = {};
+
+				for(var i=0;i<y;i++){
+					var parent = document.createElement("div");
+					parent.className = "margin-row";
+					parent.style.width = "calc((72px + 2px * 2 + 5px) * "+x+")";
+
+					layer.appendChild(parent);
+
+					for(var j=0;j<x;j++){
+						var child = document.createElement("div");
+						child.id = i+"_"+j;
+						child.draggable = true;
+						child.ondragstart = function(evt){
+							evt.dataTransfer.setData("layer",this.id);
+						};
+						child.ondrop = function(evt){
+							evt.preventDefault();
+
+							if(evt.dataTransfer.getData("layer")){
+								var target = evt.dataTransfer.getData("layer");
+								var tmp = data[target];
+
+								setData(target,data[this.id]);
+								setData(this.id,tmp);
+							}
+
+							var diff = evt.dataTransfer.getData("diff");
+							var text = evt.dataTransfer.getData("text");
+							var song = evt.dataTransfer.getData("song");
+
+							if(!diff)
+								return;
+
+							var output = {diff: diff};
+
+							if(text)
+								output.text = text;
+							if(song)
+								output.song = song;
+
+							setData(this.id,output);
+						};
+						child.ondragover = function(evt){
+							evt.preventDefault();
+						};
+
+						parent.appendChild(child);
+
+						setData(child.id,old[child.id]?old[child.id]:{diff: "nop"});
+					}
+				}
+			}
+
+			function setList(level){
+				if(level==0){
+					list.style.display = "none";
+					etc.style.display = "block";
+
+					customNumber();
+				}
+				else{
+					etc.style.display = "none";
+					list.style.display = "block";
+
+					while(list.firstChild){
+						list.removeChild(list.firstChild);
+					}
+
+					var elem = document.createElement("div");
+					elem.className = "container align nop";
+					elem.draggable = true;
+					elem.dataset["diff"] = "nop";
+					elem.ondragstart = function(evt){
+						evt.dataTransfer.setData("diff","nop");
+					};
+
+					list.appendChild(elem);
+
+					for(var target in metadata){
+						for(var i=0;i<diff_db.length;i++){
+							if(metadata[target][diff_db[i]]==level){
+								var diff = diff_db[i];
+								
+								if(diff=="inf"){
+									if(metadata[target]["grv"]==1)
+										diff = "grv";
+									else if(metadata[target]["grv"]==2)
+										diff = "hvn";
+								}
+
+								var elem = document.createElement("div");
+								elem.className = "container align "+diff;
+								elem.style.backgroundImage = "url(http://cdn.azu.kr"+metadata[target]["albumart_"+diff_db[i]]+")";
+								elem.draggable = true;
+								elem.dataset["diff"] = diff;
+								elem.dataset["song"] = target;
+								elem.ondragstart = function(evt){
+									evt.dataTransfer.setData("diff",this.dataset["diff"]);
+									evt.dataTransfer.setData("song",this.dataset["song"]);
+								};
+
+								list.appendChild(elem);
+							}
+						}
+					}
+
+					keyword.value="";
+				}
+			}
+
+			function search(){
+				for(var i=0;i<list.childNodes.length;i++){
+					if(list.childNodes[i].dataset["song"]){
+						if(!keyword.value){
+							list.childNodes[i].style.display = "inline-block";
+							continue;
+						}
+
+						if(metadata[list.childNodes[i].dataset["song"]]["title"].toLowerCase().indexOf(keyword.value.toLowerCase())==-1)
+							list.childNodes[i].style.display = "none";
+						else
+							list.childNodes[i].style.display = "inline-block";
+					}
+				}
+				keyword.value
+			}
+
+			function codeLoad(target){
+				code.disabled = true;
+				save.disabled = true;
+				load.disabled = true;
+
+				var req = new XMLHttpRequest();
+				req.open("GET","http://cors.kano.kr/sdvx/table/"+target+".json",true);
+				req.onreadystatechange = function(){
+					if(req.readyState==4){
+						if(req.status==200){
+							try{
+								var obj = JSON.parse(req.responseText);
+
+								if(obj.size){
+									width.value = obj.size.x;
+									height.value = obj.size.y;
+
+									if(obj.data){
+										data = obj.data;
+
+										setLayer(obj.size.x,obj.size.y);
+									}
+									else
+										throw obj;
+								}
+								else
+									throw obj;
+							}catch(e){
+								console.log(e);
+
+								data = {};
+
+								alert("불러오기에 실패하였습니다!");
+							}
+						}
+						else
+							alert("불러오기에 실패하였습니다!");
+
+						code.disabled = false;
+						save.disabled = false;
+						load.disabled = false;
+					}
+				};
+				req.send(null);
+			}
+
+			function codeSave(){
+				code.disabled = true;
+				save.disabled = true;
+				load.disabled = true;
+
+				var req = new XMLHttpRequest();
+				req.open("POST","/save",true);
+				req.onreadystatechange = function(){
+					if(req.readyState==4){
+						if(req.status==200)
+							code.value = req.responseText;
+						else
+							alert("저장에 실패하였습니다!");
+
+						code.disabled = false;
+						save.disabled = false;
+						load.disabled = false;
+					}
+				};
+				req.send(JSON.stringify({size: size, data: data}));
+			}
+
+			window.onload = function(){
+				code.disabled = false;
+				save.disabled = false;
+				load.disabled = false;
+
+				code.value = "";
+
+				setLayer(width.value,height.value);
+			};
+
+			var req = new XMLHttpRequest();
+			req.open("GET","http://api.kano.kr/metadata/sdvx.json",true);
+			req.onreadystatechange = function(){
+				if(req.readyState==4){
+					if(req.status==200){
+						metadata = JSON.parse(req.responseText).data;
+
+						setList(parseInt(category.value));
+					}
+					else
+						alert("리스트를 가져올 수 없습니다!");
+				}
+			};
+			req.send(null);
+		</script>
+	</body>
+</html>
